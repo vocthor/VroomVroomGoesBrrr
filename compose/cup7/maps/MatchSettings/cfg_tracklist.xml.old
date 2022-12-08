@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<playlist>
+	<gameinfos>
+		<game_mode>0</game_mode>
+		<script_name>Trackmania/TM_Cup_Online</script_name>
+	</gameinfos>
+	<script_settings>
+		<setting name="S_PointsLimit" type="integer" value="120"/>
+		<setting name="S_PointsRepartition" type="text" value="10,7,5,3"/>
+		<setting name="S_NbWinners" type="integer" value="3"/>
+		<setting name="S_RoundsPerMap" type="integer" value="3"/>
+		<setting name="S_FinishTimeout" type="integer" value="60"/>
+		<setting name="S_ProgressiveActivation_PlayersNbRatio" type="integer" value="2"/>
+		<setting name="S_MatchmakingProgressive" type="boolean" value="0"/>
+                <setting name="S_WarmUpDuration" type="integer" value="120"/>
+                <setting name="S_WarmUpNb" type="integer" value="1"/>
+	</script_settings>
+	<startindex>0</startindex>
+	<map><file>Campaigns/Amber palace.Map.Gbx</file></map>
+	<map><file>Campaigns/Fall 2021 - 03.Map.Gbx</file></map>
+</playlist>
