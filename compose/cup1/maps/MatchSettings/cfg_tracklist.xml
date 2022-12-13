@@ -4,16 +4,19 @@
 		<game_mode>0</game_mode>
 		<script_name>Trackmania/TM_Cup_Online</script_name>
 	</gameinfos>
+	<filter>
+		<is_lan>1</is_lan>
+		<random_map_order>1</random_map_order>
+	</filter>
 	<script_settings>
 		<setting name="S_PointsLimit" type="integer" value="140" />
 		<setting name="S_PointsRepartition" type="text" value="10,7,5,3" />
 		<setting name="S_NbWinners" type="integer" value="3" />
 		<setting name="S_RoundsPerMap" type="integer" value="3" />
 		<setting name="S_FinishTimeout" type="integer" value="15" />
-		<setting name="S_ProgressiveActivation_PlayersNbRatio" type="integer" value="2" />
-		<setting name="S_MatchmakingProgressive" type="boolean" value="0" />
 		<setting name="S_WarmUpDuration" type="integer" value="-1" />
 		<setting name="S_WarmUpNb" type="integer" value="1" />
+		<setting name="S_NbOfPlayersMin" type="integer" value="4" />
 	</script_settings>
 	<startindex>0</startindex>
 	<map>

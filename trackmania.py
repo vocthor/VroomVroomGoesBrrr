@@ -17,6 +17,11 @@ NUMBER_ARGS = 2
 
 
 def upServer(id):
+    """
+    It runs a docker-compose command in a specific directory
+
+    :param id: the id of the server
+    """
     name = "tm_server_" + id
     path = "./compose/cup" + id + "/"
     p = subprocess.Popen(["sudo", "docker-compose", "-p", name,
@@ -25,6 +30,12 @@ def upServer(id):
 
 
 def downServer(id):
+    """
+    It takes an id as a parameter, and then it runs a docker-compose command to bring down the server
+    with that id
+
+    :param id: the id of the server
+    """
     name = "tm_server_" + id
     path = "./compose/cup" + id + "/"
     p = subprocess.Popen(["sudo", "docker-compose", "-p", name,
