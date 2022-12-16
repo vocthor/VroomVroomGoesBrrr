@@ -9,8 +9,8 @@ Run ./trackmania <action> <ports>
 ex : './trackmania.py up 12' -> starts cup1 and cup2
 """
 
-
 import subprocess
+import shlex
 import sys
 
 NUMBER_ARGS = 2
@@ -43,21 +43,45 @@ def downServer(id):
     print(p.communicate())
 
 
+def status():
+    """
+    Display the status of the Trackmania servers, showing the ID, Uptime, and Name of the running dockers.
+    """
+    p = subprocess.Popen(
+        shlex.split("sudo docker ps --format \"table {{.ID}}\t{{.Status}}\t{{.Names}}\""))
+    print(p.communicate())
+
+
 def main(args):
     """
     It starts or closes the servers in the list of servers passed as an argument
 
     :param args: the list of arguments passed to the script
     """
-    if (len(args) > 1+NUMBER_ARGS or len(args) < 1+NUMBER_ARGS):
+    if (args[1] == "status"):
+        status()
         exit(1)
-    listServer = args[2]
-    if (args[1] == "up"):
-        for i in range(len(listServer)):
-            upServer(listServer[i])
-    elif (args[1] == "down"):
-        for i in range(len(listServer)):
-            downServer(listServer[i])
+    try:
+        if (args[1] == "up"):
+            listServer = args[2].split(",")
+            for i in range(len(listServer)):
+                upServer(listServer[i])
+        elif (args[1] == "down"):
+            listServer = args[2].split(",")
+            for i in range(len(listServer)):
+                downServer(listServer[i])
+        else:
+            print("[ERROR] Wrong argument : '{0}' is not regonized as a valid argument.".format(
+                args[1]))
+            exit(1)
+    except IndexError:
+        sys.stderr.write("[ERROR] Wrong number of arguments : '{0}' requires a list of int separated by commas.\n".format(
+            args[1]))
+        exit(1)
+    except FileNotFoundError:
+        sys.stderr.write(
+            "[ERROR] Index out of bound : specified server does not exist, no directory found with that index.\n")
+        exit(1)
 
 
 if __name__ == "__main__":
