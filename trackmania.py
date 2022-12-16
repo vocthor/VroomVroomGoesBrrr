@@ -3,8 +3,8 @@
 """
 Run ./trackmania <action> <ports>
 
-<action> can be 'down', 'up'
-<ports> is numbers concatenated referencing the server to affect
+<action> can be 'down', 'up', 'status'.
+<ports> is numbers concatenated referencing the server to affect. 'status' does not required any port.
 
 ex : './trackmania.py up 12' -> starts cup1 and cup2
 """
@@ -12,8 +12,6 @@ ex : './trackmania.py up 12' -> starts cup1 and cup2
 import subprocess
 import shlex
 import sys
-
-NUMBER_ARGS = 2
 
 
 def upServer(id):
@@ -60,7 +58,7 @@ def main(args):
     """
     if (args[1] == "status"):
         status()
-        exit(1)
+        exit(0)
     try:
         if (args[1] == "up"):
             listServer = args[2].split(",")
