@@ -22,6 +22,9 @@ def upServer(id):
     """
     name = "tm_server_" + id
     path = "./compose/cup" + id + "/"
+    if (id == "t") :
+        name = "tm_server_train"
+        path = "./compose/train"
     p = subprocess.Popen(["sudo", "docker-compose", "-p", name,
                           "-f", "docker-compose.yaml", "up", "-d"], cwd=path)
     print(p.communicate())
@@ -36,6 +39,9 @@ def downServer(id):
     """
     name = "tm_server_" + id
     path = "./compose/cup" + id + "/"
+    if (id == "t") :
+        name = "tm_server_train"
+        path = "./compose/train/"
     p = subprocess.Popen(["sudo", "docker-compose", "-p", name,
                           "-f", "docker-compose.yaml", "down", "-v"], cwd=path)
     print(p.communicate())
@@ -60,12 +66,11 @@ def main(args):
         status()
         exit(0)
     try:
+        listServer = args[2]
         if (args[1] == "up"):
-            listServer = args[2].split(",")
             for i in range(len(listServer)):
                 upServer(listServer[i])
         elif (args[1] == "down"):
-            listServer = args[2].split(",")
             for i in range(len(listServer)):
                 downServer(listServer[i])
         else:
@@ -76,7 +81,8 @@ def main(args):
         sys.stderr.write("[ERROR] Wrong number of arguments : '{0}' requires a list of int separated by commas.\n".format(
             args[1]))
         exit(1)
-    except FileNotFoundError:
+    except FileNotFoundError as e:
+        sys.stderr.write(e.args)
         sys.stderr.write(
             "[ERROR] Index out of bound : specified server does not exist, no directory found with that index.\n")
         exit(1)
