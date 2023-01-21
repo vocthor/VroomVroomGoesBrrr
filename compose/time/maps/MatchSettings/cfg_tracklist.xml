@@ -15,32 +15,12 @@
 	</script_settings>
 
 	<startindex>0</startindex>
-	<map>
-		<file>InsaLan23/aeropipes.Map.Gbx</file>
-	</map>
+	
 	<map>
 		<file>InsaLan23/agility-dash.Map.Gbx</file>
 	</map>
 	<map>
 		<file>InsaLan23/backnforth.Map.Gbx</file>
-	</map>
-	<map>
-		<file>InsaLan23/flipoffaith.Map.Gbx</file>
-	</map>
-	<map>
-		<file>InsaLan23/freestyle.Map.Gbx</file>
-	</map>
-	<map>
-		<file>InsaLan23/gyroscope.Map.Gbx</file>
-	</map>
-	<map>
-		<file>InsaLan23/parkour.Map.Gbx</file>
-	</map>
-	<map>
-		<file>InsaLan23/reps.Map.Gbx</file>
-	</map>
-	<map>
-		<file>InsaLan23/slippyslides.Map.Gbx</file>
 	</map>
 	<map>
 		<file>InsaLan23/slowdown.Map.Gbx</file>
