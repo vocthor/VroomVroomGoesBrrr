@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <playlist>
 	<gameinfos>
-		<game_mode>1</game_mode>
+		<game_mode>0</game_mode>
 		<script_name>Trackmania/TM_TimeAttack_Online</script_name>
 	</gameinfos>
 	<filter>

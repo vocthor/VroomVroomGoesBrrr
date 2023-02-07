@@ -23,9 +23,9 @@ def upServer(id):
     name = "tm_server_" + id
     path = "./compose/cup" + id + "/"
     if (id == "t") :
-        name = "tm_server_train"
-        path = "./compose/train"
-    p = subprocess.Popen(["sudo", "docker-compose", "-p", name,
+        name = "tm_server_time"
+        path = "./compose/time"
+    p = subprocess.Popen(["docker-compose", "-p", name,
                           "-f", "docker-compose.yaml", "up", "-d"], cwd=path)
     print(p.communicate())
 
@@ -40,9 +40,9 @@ def downServer(id):
     name = "tm_server_" + id
     path = "./compose/cup" + id + "/"
     if (id == "t") :
-        name = "tm_server_train"
-        path = "./compose/train/"
-    p = subprocess.Popen(["sudo", "docker-compose", "-p", name,
+        name = "tm_server_time"
+        path = "./compose/time/"
+    p = subprocess.Popen(["docker-compose", "-p", name,
                           "-f", "docker-compose.yaml", "down", "-v"], cwd=path)
     print(p.communicate())
 
@@ -52,7 +52,7 @@ def status():
     Display the status of the Trackmania servers, showing the ID, Uptime, and Name of the running dockers.
     """
     p = subprocess.Popen(
-        shlex.split("sudo docker ps --format \"table {{.ID}}\t{{.Status}}\t{{.Names}}\""))
+        shlex.split("docker ps --format \"table {{.ID}}\t{{.Status}}\t{{.Names}}\""))
     print(p.communicate())
 
 

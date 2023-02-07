@@ -79,7 +79,7 @@
 		<p2p_cache_size>600</p2p_cache_size>
 
 		<force_ip_address></force_ip_address>
-		<server_port>2358</server_port>
+		<server_port>2351</server_port>
 		<server_p2p_port>3450</server_p2p_port>
 		<client_port>0</client_port>
 		<bind_ip_address></bind_ip_address>
