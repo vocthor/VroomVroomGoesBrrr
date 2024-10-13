@@ -5,12 +5,15 @@ mod server;
 
 use crate::controllers::cli::start_cli_controller;
 use crate::controllers::web::start_web_controller;
+use crate::orchestrator::orchestrator::Orchestrator;
 
 #[tokio::main]
 /// The main entry point of the application.
 async fn main() {
     start_web_controller(3000);
     start_cli_controller();
+    let orchestrator = Orchestrator::new();
+    orchestrator.start();
 
     println!("Application started");
 

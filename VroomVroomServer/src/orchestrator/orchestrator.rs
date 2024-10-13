@@ -13,19 +13,22 @@ pub struct Orchestrator {
 
 impl Orchestrator {
     pub fn new() -> Self {
-        return Self {
+        return Orchestrator {
             servers: HashMap::new(),
             event_queue: VecDeque::new(),
         };
     }
-
-    pub fn start(&mut self) {
-        thread::spawn(|| loop {
-            self.process_queue();
+    /// Starts the orchestrator in a new thread.
+    pub fn start(mut self) {
+        thread::spawn(move || loop {
+            if(!self.event_queue.is_empty()) {
+                self.process_queue();
+            }
         });
     }
 
     fn process_queue(&mut self) {
+
         let event = self.event_queue.pop_front().unwrap();
         match event {
             Event::StartEvent(StartEvent {
@@ -41,6 +44,7 @@ impl Orchestrator {
             Event::StopEvent(StopEvent { id, resolver }) => {
                 self.stop_server(id);
             }
+            _ => {}
         }
     }
 

@@ -1,5 +1,4 @@
-.vscode
-.idea
+VroomVroomServer.vscode
+VroomVroomServer/.idea
 
-/target
-./.idea
+VroomVroomServer/target
