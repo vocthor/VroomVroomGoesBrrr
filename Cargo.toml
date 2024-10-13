@@ -1,5 +1,5 @@
 [package]
-name = "trackmania-server-docker"
+name = "VroomVroomGoesBrrr"
 version = "0.1.0"
 edition = "2021"
 
@@ -13,3 +13,6 @@ serde = { version = "1.0.210", features = ["derive"] }
 serde_json = "1.0.128"
 tracing-subscriber = "0.3.18"
 promises = "0.2.0"
+rusty-docker-compose = "0.3.0"
+bollard = "0.17.1"
+rand = "0.8.5"

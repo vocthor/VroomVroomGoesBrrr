@@ -1,0 +1,22 @@
+@startuml
+
+class ServerEvent_Base {}
+
+class ServerEvent_Start {
+    map
+    conf1
+    conf2
+}
+class ServerEvent_Delete {
+    id: String
+}
+class ServerEvent_GetServers {
+    RETURNS infos : List<ServerInfos>
+}
+class ServerEvent_GetScore {
+    id: String
+    RETURNS scores : Map<time, playerName>
+}
+
+
+@enduml

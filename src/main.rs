@@ -1,5 +1,7 @@
 mod controllers;
 mod events;
+mod orchestrator;
+mod server;
 
 use crate::controllers::cli::start_cli_controller;
 use crate::controllers::web::start_web_controller;
@@ -17,7 +19,7 @@ async fn main() {
     }
 }
 /// Stops the server and exits the process.
-pub fn stop(){
+pub fn stop() {
     println!("Server stopped");
     std::process::exit(0);
 }

@@ -1,0 +1,26 @@
+@startuml Component
+
+
+component Main
+component Orchestrator
+component Queue
+component ControlerCLI
+component ControlerWeb
+component Server
+component Container
+
+' Main -down-> Orchestrator : starts
+' Main -down-> Queue : starts
+' Main -down-> ControlerCLI : starts
+' Main -down-> ControlerWeb : starts
+
+ControlerCLI --> Queue : publishes
+ControlerWeb --> Queue : publishes
+
+Queue -right-> Orchestrator : sends commands to
+
+Orchestrator -right-> Server : manages multiple
+
+Server -right-> Container : manages multiple
+
+@enduml

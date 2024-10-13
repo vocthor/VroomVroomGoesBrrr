@@ -1,36 +1,36 @@
+use crate::controllers::models::ServerInfo;
 use std::path::Path;
 use tokio::sync::oneshot::Sender;
-use crate::controllers::models::ServerInfo;
 
-enum Event {
+pub enum Event {
     StartEvent(StartEvent),
     StopEvent(StopEvent),
     ListEvent(ListEvent),
     GetServerInfoEvent(GetServerInfoEvent),
 }
 
-struct StartEvent {
+pub struct StartEvent {
     name: String,
-    map_path: Path,
-    cfg_server_path: Path,
-    cfg_tracklist_path: Path,
-    resolver : Sender<StartEventResponse>
+    map_path: Box<Path>,
+    cfg_server_path: Box<Path>,
+    cfg_tracklist_path: Box<Path>,
+    resolver: Sender<StartEventResponse>,
 }
 
 struct StartEventResponse {
     id: u32,
 }
 
-struct StopEvent {
+pub struct StopEvent {
     id: u32,
-    resolver : Sender<StopEventResponse>
+    resolver: Sender<StopEventResponse>,
 }
 struct StopEventResponse {
-    resolver : Sender<StopEventResponse>
+    resolver: Sender<StopEventResponse>,
 }
 
 struct ListEvent {
-    resolver : Sender<ListEventResponse>
+    resolver: Sender<ListEventResponse>,
 }
 struct ListEventResponse {
     servers: Vec<ServerInfo>,
@@ -38,7 +38,7 @@ struct ListEventResponse {
 
 struct GetServerInfoEvent {
     id: u32,
-    resolver : Sender<GetServerInfoEventResponse>
+    resolver: Sender<GetServerInfoEventResponse>,
 }
 struct GetServerInfoEventResponse {
     server: ServerInfo,
