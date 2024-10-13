@@ -360,6 +360,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "promises"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "585956a6b46a16a1bedaab83a3a4f7bb36e1273b5b4f17a6dbb5779a14272d4f"
+
+[[package]]
 name = "quote"
 version = "1.0.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -604,6 +610,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "http",
+ "promises",
  "serde",
  "serde_json",
  "tokio",
