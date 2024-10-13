@@ -1,4 +1,5 @@
 mod controllers;
+mod events;
 
 use crate::controllers::cli::start_cli_controller;
 use crate::controllers::web::start_web_controller;
