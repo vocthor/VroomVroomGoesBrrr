@@ -1,11 +1,15 @@
 mod controllers;
 
-use crate::controllers::web::start_web_server;
+use crate::controllers::cli::start_cli_controller;
+use crate::controllers::web::start_web_controller;
 
 #[tokio::main]
 /// The main entry point of the application.
 async fn main() {
-    start_web_server(3000);
+    start_web_controller(3000);
+    start_cli_controller();
+
+    println!("Application started");
 
     loop {
         tokio::time::sleep(tokio::time::Duration::from_secs(1)).await;
