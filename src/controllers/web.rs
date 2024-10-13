@@ -6,7 +6,7 @@ use axum::{
 use axum::extract::Path;
 use crate::controllers::models::ServerInfo;
 
-pub fn start_web_server(port: u16) {
+pub fn start_web_controller(port: u16) {
     tokio::spawn(async move {
         start(port).await;
     });
