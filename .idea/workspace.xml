@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="CargoProjects">
+    <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="feat(event): creating events">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/controllers/models.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/controllers/models.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/orchestrator/orchestrator.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/orchestrator/orchestrator.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/server/server.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/server/server.rs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:dev" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="fsbq73jf" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2nLcgHX8y1KbweMsrKlR4TyTfD2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Cargo.Run trackmania-server-docker.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.rust.reset.selective.auto.import": "true",
+    "git-widget-placeholder": "cli__message",
+    "last_opened_file_path": "/home/jeremy/Workspace/VroomVroomGoesBrrr/VroomVroomServer",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
+    "org.rust.first.attach.projects": "true",
+    "settings.editor.selected.configurable": "language.rust.cargo.check",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/VroomVroomServer" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/controllers" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Cargo.Run trackmania-server-docker">
+    <configuration name="Run trackmania-server-docker" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="command" value="run --package trackmania-server-docker --bin trackmania-server-docker" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$/VroomVroomCli" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test trackmania-server-docker" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="command" value="test --workspace" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Cargo.Run trackmania-server-docker" />
+      <item itemvalue="Cargo.Test trackmania-server-docker" />
+    </list>
+  </component>
+  <component name="RustProjectSettings">
+    <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="" />
+      <created>1728755905790</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1728755905790</updated>
+      <workItem from="1728755906898" duration="171000" />
+      <workItem from="1728756084172" duration="20000" />
+      <workItem from="1728756109748" duration="4000" />
+      <workItem from="1728756121008" duration="51000" />
+      <workItem from="1728756178237" duration="3000" />
+      <workItem from="1728756270420" duration="15000" />
+      <workItem from="1728756291529" duration="4000" />
+      <workItem from="1728756301603" duration="19000" />
+      <workItem from="1728756328809" duration="5000" />
+      <workItem from="1728756344758" duration="10696000" />
+      <workItem from="1728771521138" duration="270000" />
+      <workItem from="1728771796545" duration="10129000" />
+      <workItem from="1729099121661" duration="1843000" />
+      <workItem from="1729190901419" duration="687000" />
+    </task>
+    <task id="LOCAL-00001" summary="adding routing and default routes">
+      <option name="closed" value="true" />
+      <created>1728771090991</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728771090991</updated>
+    </task>
+    <task id="LOCAL-00002" summary="adding cli support">
+      <option name="closed" value="true" />
+      <created>1728780094210</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1728780094210</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat(event): creating events">
+      <option name="closed" value="true" />
+      <created>1728782415709</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1728782415709</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="adding routing and default routes" />
+    <MESSAGE value="adding cli support" />
+    <MESSAGE value="feat(event): creating events" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(event): creating events" />
+  </component>
+</project>

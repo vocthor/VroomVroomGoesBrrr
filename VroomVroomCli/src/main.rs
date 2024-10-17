@@ -1,4 +1,7 @@
+use std::io::Write;
+use std::os::unix::net::UnixStream;
 use clap::{Arg, ArgMatches, Command};
+use common_cli_messages::{get_cli_socket_path, CliMessage, StartServerCliMessage};
 
 fn main() {
     // Définition des commandes
@@ -59,6 +62,24 @@ fn main() {
         match server_matches.subcommand() {
             Some(("start", sub_matches)) => {
                 let server_name: String = sub_matches.get_one::<String>("name").expect("Le nom du serveur est obligatoire").to_string();
+                let cli_message = CliMessage::StartServer(StartServerCliMessage {
+                    name: server_name.clone(),
+                    map_path: "map_path".to_string(),
+                    cfg_server_path: "cfg_server_path".to_string(),
+                    cfg_tracklist_path: "cfg_tracklist_path".to_string(),
+                });
+
+                let mut stream = UnixStream::connect(get_cli_socket_path());
+                match stream {
+                    Ok(mut stream) => {
+                        let serialized = common_cli_messages::serialize_cli_message(&cli_message).unwrap();
+                        stream.write(serialized.as_bytes()).unwrap();
+                    }
+                    Err(err) => {
+                        eprintln!("Impossible de se connecter au socket: {:?}", err);
+                    }
+                }
+
                 println!("Démarrage du serveur {:?}", server_name);
             }
             Some(("list", _)) => println!("Liste des serveurs"),

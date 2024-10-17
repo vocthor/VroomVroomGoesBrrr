@@ -16,3 +16,4 @@ promises = "0.2.0"
 rusty-docker-compose = "0.3.0"
 bollard = "0.17.1"
 rand = "0.8.5"
+common-cli-messages = { path = "../common-cli-messages" }

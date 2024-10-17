@@ -10,7 +10,7 @@ pub struct Server {
 impl Server {
     pub fn new(id: u32, name: String) -> Self {
         let docker_compose_cmd =
-            DockerComposeCmd::new("tests/docker-compose.yaml", "target/docker_logs");
+            DockerComposeCmd::new("./compose/test/docker-compose.yaml", "target/docker_logs");
         return Self {
             id,
             name,
