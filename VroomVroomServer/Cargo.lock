@@ -8,6 +8,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "bollard",
+ "common-cli-messages",
  "http",
  "promises",
  "rand",
@@ -216,6 +217,14 @@ dependencies = [
  "num-traits",
  "serde",
  "windows-targets",
+]
+
+[[package]]
+name = "common-cli-messages"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
