@@ -1,22 +1,42 @@
 @startuml
 
-class ServerEvent_Base {}
+class StartEvent {
+    name: String
+    cfg_server_path: Path
+    cfg_tracklist_path: Path
+}
+class StartEventResponse {
+    id: u32
+}
 
-class ServerEvent_Start {
-    map
-    conf1
-    conf2
+class StopEvent {
+    id: u32
 }
-class ServerEvent_Delete {
-    id: String
+class StopEventResponse {
 }
-class ServerEvent_GetServers {
-    RETURNS infos : List<ServerInfos>
+
+class ListServersEvent {
 }
-class ServerEvent_GetScore {
-    id: String
-    RETURNS scores : Map<time, playerName>
+class ListServersEventResponse {
+    servers: Vec<ServerInfo>
 }
+
+class GetServerInfoEvent {
+    id: u32
+}
+class GetServerInfoEventResponse {
+    server: ServerInfo
+}
+
+' Use Server instead ?
+class ServerInfo {
+    id: u32
+}
+
+StartEvent --> StartEventResponse
+StopEvent --> StopEventResponse
+ListServersEvent --> ListServersEventResponse
+GetServerInfoEvent --> GetServerInfoEventResponse
 
 
 @enduml

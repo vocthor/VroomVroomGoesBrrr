@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   database:
@@ -33,10 +33,10 @@ services:
       SERVER_TITLE: "Trackmania"
       SERVER_NAME: "Insalan Cup1"
     ports:
-      - "2351:2351/tcp"
-      - "2351:2351/udp"
-#      - "3450:3450/tcp"
-#      - "3450:3450/udp"
+      - "2352:2352/tcp"
+      - "2352:2352/udp"
+    #      - "3450:3450/tcp"
+    #      - "3450:3450/udp"
     expose:
       - 5005
     volumes:
