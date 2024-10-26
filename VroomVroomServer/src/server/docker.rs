@@ -1,7 +1,4 @@
-use std::fs::File;
-use std::path::Path;
-use std::process::{Command, Stdio};
-use std::thread;
+use std::process::Command;
 
 #[derive(Clone)]
 pub struct DockerComposeCmd {
@@ -19,7 +16,7 @@ impl DockerComposeCmd {
         }
     }
 
-    pub fn up(&self) {
+    pub fn up(&self) -> bool {
         let output = Command::new("docker-compose")
             .arg("-p")
             .arg(self.name.clone())
@@ -29,9 +26,21 @@ impl DockerComposeCmd {
             .arg("-d")
             .output()
             .expect("Failed to execute up command");
-        println!("Output: {}", String::from_utf8_lossy(&output.stdout));
-        println!("Errors: {}", String::from_utf8_lossy(&output.stderr));
-        println!("Docker Compose started");
+
+        let success = output.status.success();
+        match success {
+            true => {
+                println!("Output: {}", String::from_utf8_lossy(&output.stdout));
+            }
+            false => {
+                println!(
+                    "An error occured while docker-compose : {}",
+                    String::from_utf8_lossy(&output.stderr)
+                );
+                self.down();
+            }
+        }
+        return success;
 
         // let dir = &self.logs_dir;
         // if Path::new(dir).exists() {
@@ -82,6 +91,8 @@ impl DockerComposeCmd {
         println!("Gracefully shutting down...");
 
         let _output = Command::new("docker-compose")
+            .arg("-p")
+            .arg(self.name.clone())
             .arg("-f")
             .arg(self.file.clone())
             .arg("down")

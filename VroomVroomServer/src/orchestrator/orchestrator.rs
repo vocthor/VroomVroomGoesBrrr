@@ -47,8 +47,10 @@ impl Orchestrator {
                 resolver,
             }) => {
                 let id = self.create_server(name, cfg_server_path, cfg_tracklist_path);
-                self.start_server(id);
-                let _ = resolver.send(StartEventResponse { id });
+                let successful_server_start = self.start_server(id);
+                if successful_server_start {
+                    let _ = resolver.send(StartEventResponse { id });
+                }
             }
             Event::StopEvent(StopEvent { id, resolver }) => {
                 self.stop_server(id);
@@ -72,9 +74,9 @@ impl Orchestrator {
         return id;
     }
 
-    fn start_server(&self, id: u32) {
+    fn start_server(&self, id: u32) -> bool {
         let serv = self.servers.get(&id).unwrap();
-        serv.start_server();
+        return serv.start_server();
     }
 
     fn stop_server(&self, id: u32) {

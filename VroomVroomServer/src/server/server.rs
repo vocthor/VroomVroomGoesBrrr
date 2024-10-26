@@ -20,9 +20,9 @@ impl Server {
         };
     }
 
-    pub fn start_server(&self) {
+    pub fn start_server(&self) -> bool {
         println!("Server docker-compose up");
-        self.docker_compose_cmd.up();
+        return self.docker_compose_cmd.up();
     }
 
     pub fn stop_server(&self) {
