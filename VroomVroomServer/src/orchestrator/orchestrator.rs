@@ -1,13 +1,12 @@
-use crate::events::models::{Event, StartEvent, StartEventResponse, StopEvent};
+use crate::events::models::{Event, StartEvent, StartEventResponse, StopEvent, StopEventResponse};
 use crate::server::server::Server;
 use rand::Rng;
 use std::path::Path;
-// 0.8.5
+use std::sync::{Arc, Mutex};
 use std::{
     collections::{HashMap, VecDeque},
     thread,
 };
-use std::sync::{Arc, Mutex};
 
 pub struct Orchestrator {
     servers: HashMap<u32, Server>,
@@ -15,7 +14,7 @@ pub struct Orchestrator {
 }
 
 impl Orchestrator {
-    pub fn new(event_queue : Arc<Mutex<VecDeque<Event>>>) -> Self {
+    pub fn new(event_queue: Arc<Mutex<VecDeque<Event>>>) -> Self {
         return Orchestrator {
             servers: HashMap::new(),
             event_queue,
@@ -42,17 +41,18 @@ impl Orchestrator {
     fn process_queue(&mut self, event: Event) {
         match event {
             Event::StartEvent(StartEvent {
-                                  name,
-                                  cfg_server_path,
-                                  cfg_tracklist_path,
-                                  resolver,
-                              }) => {
+                name,
+                cfg_server_path,
+                cfg_tracklist_path,
+                resolver,
+            }) => {
                 let id = self.create_server(name, cfg_server_path, cfg_tracklist_path);
                 self.start_server(id);
                 let _ = resolver.send(StartEventResponse { id });
             }
             Event::StopEvent(StopEvent { id, resolver }) => {
                 self.stop_server(id);
+                let _ = resolver.send(StopEventResponse {});
             }
             _ => {}
         }
@@ -64,7 +64,7 @@ impl Orchestrator {
         cfg_server_path: Box<Path>,
         cfg_tracklist_path: Box<Path>,
     ) -> u32 {
-        // Opération de recopitage
+        // TODO Opération de recopitage
 
         let id: u32 = rand::thread_rng().gen::<u32>();
         let serv = Server::new(id, name);
@@ -76,6 +76,9 @@ impl Orchestrator {
         let serv = self.servers.get(&id).unwrap();
         serv.start_server();
     }
-    fn stop_server(&self, id: u32) {}
 
+    fn stop_server(&self, id: u32) {
+        let serv = self.servers.get(&id).unwrap();
+        serv.stop_server();
+    }
 }

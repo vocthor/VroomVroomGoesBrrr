@@ -26,9 +26,7 @@ pub struct StopEvent {
     pub resolver: Sender<StopEventResponse>,
 }
 
-pub struct StopEventResponse {
-    pub resolver: Sender<StopEventResponse>,
-}
+pub struct StopEventResponse {}
 
 pub struct ListServersEvent {
     pub resolver: Sender<ListServersEventResponse>,

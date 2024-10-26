@@ -12,7 +12,6 @@ dependencies = [
  "http",
  "promises",
  "rand",
- "rusty-docker-compose",
  "serde",
  "serde_json",
  "tokio",
@@ -743,12 +742,6 @@ name = "rustversion"
 version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "955d28af4278de8121b7ebeb796b6a45735dc01436d898801014aced2773a3d6"
-
-[[package]]
-name = "rusty-docker-compose"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db065de8b45e873413d27808a1987482aa3b89e92da774fb169a9f0ffa1fe2b9"
 
 [[package]]
 name = "ryu"

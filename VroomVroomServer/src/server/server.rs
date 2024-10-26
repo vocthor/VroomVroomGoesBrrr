@@ -1,5 +1,4 @@
-use bollard::Docker;
-use rusty_docker_compose::DockerComposeCmd;
+use crate::server::docker::DockerComposeCmd;
 
 pub struct Server {
     id: u32,
@@ -9,8 +8,11 @@ pub struct Server {
 
 impl Server {
     pub fn new(id: u32, name: String) -> Self {
-        let docker_compose_cmd =
-            DockerComposeCmd::new("./compose/test/docker-compose.yaml", "target/docker_logs");
+        let docker_compose_cmd = DockerComposeCmd::new(
+            name.as_str(),
+            "./compose/test/docker-compose.yaml",
+            "target/docker_logs",
+        );
         return Self {
             id,
             name,
@@ -19,10 +21,12 @@ impl Server {
     }
 
     pub fn start_server(&self) {
+        println!("Server docker-compose up");
         self.docker_compose_cmd.up();
     }
 
     pub fn stop_server(&self) {
+        println!("Server docker-compose down");
         self.docker_compose_cmd.down();
     }
 
