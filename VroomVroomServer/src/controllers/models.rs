@@ -5,7 +5,7 @@ use crate::events::models::StartEvent;
 
 #[derive(Serialize)]
 pub struct ServerInfo {
-    id: u32,
+    pub(crate) id: u32,
 }
 
 impl ServerInfo {
