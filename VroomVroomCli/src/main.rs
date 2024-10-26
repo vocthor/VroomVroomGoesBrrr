@@ -96,7 +96,7 @@ pub fn wait_for_response() {
     let listener = UnixListener::bind(get_cli_response_socket_path()).expect("Failed to bind to socket");
 
     // accept connections and process them
-    let mut result = listener.accept();
+    let result = listener.accept();
 
     match result {
         Ok((mut stream, _)) => {

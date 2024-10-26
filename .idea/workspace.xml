@@ -7,15 +7,9 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="feat(event): creating events">
+    <list default="true" id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="feat(cli_controller): adding mapping between cli and controller, adding cli response">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomCli/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomCli/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomCli/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomCli/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomCli/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomCli/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomCli/src/socket.rs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/controllers/models.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/controllers/models.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/events/models.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/events/models.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common-cli-messages/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/common-cli-messages/src/lib.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -142,7 +136,7 @@
       <workItem from="1728771796545" duration="10129000" />
       <workItem from="1729099121661" duration="1843000" />
       <workItem from="1729190901419" duration="687000" />
-      <workItem from="1729959863442" duration="5526000" />
+      <workItem from="1729959863442" duration="6533000" />
     </task>
     <task id="LOCAL-00001" summary="adding routing and default routes">
       <option name="closed" value="true" />
@@ -168,7 +162,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728782415709</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat(cli_controller): adding mapping between cli and controller, adding cli response">
+      <option name="closed" value="true" />
+      <created>1729971984006</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729971984006</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat(cli_controller): adding mapping between cli and controller, adding cli response">
+      <option name="closed" value="true" />
+      <created>1729972815124</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729972815124</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,6 +188,7 @@
     <MESSAGE value="adding routing and default routes" />
     <MESSAGE value="adding cli support" />
     <MESSAGE value="feat(event): creating events" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(event): creating events" />
+    <MESSAGE value="feat(cli_controller): adding mapping between cli and controller, adding cli response" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(cli_controller): adding mapping between cli and controller, adding cli response" />
   </component>
 </project>

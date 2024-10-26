@@ -53,14 +53,13 @@ pub struct StopServerCliResponse {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GetServerInfoCliResponse {
-    pub code: CliResponseCode,
-    pub server: ServerInfo,
+    pub code: CliResponseCode
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ListServerCliResponse {
     pub code: CliResponseCode,
-    pub servers: Vec<ServerInfo>,
+    pub servers: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

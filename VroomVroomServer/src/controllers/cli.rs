@@ -131,7 +131,7 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                             send_response(CliResponse::ListServerCliResponse(
                                 ListServerCliResponse {
                                     code: CliResponseCode::Ok,
-                                    servers: response.servers,
+                                    servers: vec![],
                                 },
                             ));
                         }
