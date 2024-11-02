@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::{collections::HashMap, process::Command};
 
 #[derive(Clone)]
 pub struct DockerComposeCmd {
@@ -16,8 +16,19 @@ impl DockerComposeCmd {
         }
     }
 
-    pub fn up(&self) -> bool {
-        let output = Command::new("docker-compose")
+    pub fn up(&self, env: HashMap<&str, &str>) -> bool {
+        let mut cmd_str = String::new();
+
+        // Adding parameters in docker-compose.yaml file
+        if !env.is_empty() {
+            for ele in env {
+                cmd_str += &format!("{}={}", ele.0, ele.1);
+            }
+        }
+
+        cmd_str += " docker-compose";
+
+        let output = Command::new(cmd_str)
             .arg("-p")
             .arg(self.name.clone())
             .arg("-f")
@@ -29,9 +40,11 @@ impl DockerComposeCmd {
 
         let success = output.status.success();
         match success {
+            // If server correctly starting : nothing particuliar
             true => {
                 println!("Output: {}", String::from_utf8_lossy(&output.stdout));
             }
+            // If error during startup : stop the server
             false => {
                 println!(
                     "An error occured while docker-compose : {}",

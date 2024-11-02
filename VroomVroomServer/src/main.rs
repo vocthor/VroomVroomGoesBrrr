@@ -7,6 +7,7 @@ use crate::controllers::cli::start_cli_controller;
 use crate::controllers::web::start_web_controller;
 use crate::events::models::Event;
 use crate::orchestrator::orchestrator::Orchestrator;
+use crate::orchestrator::port_manager::PortManager;
 use std::collections::VecDeque;
 use std::sync::{Arc, Mutex};
 
@@ -15,9 +16,10 @@ use std::sync::{Arc, Mutex};
 async fn main() {
     // create a queue using Arc
     let event_queue: Arc<Mutex<VecDeque<Event>>> = Arc::new(Mutex::new(VecDeque::new()));
+    let port_manager: PortManager = PortManager::new(2350, 2399);
     start_web_controller(3000);
     start_cli_controller(event_queue.clone());
-    let orchestrator = Orchestrator::new(event_queue.clone());
+    let orchestrator = Orchestrator::new(event_queue.clone(), port_manager);
     orchestrator.start();
 
     println!("Application started");
