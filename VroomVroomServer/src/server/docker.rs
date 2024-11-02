@@ -17,26 +17,22 @@ impl DockerComposeCmd {
     }
 
     pub fn up(&self, env: HashMap<&str, &str>) -> bool {
-        let mut cmd_str = String::new();
-
+        let mut command = Command::new("docker-compose");
         // Adding parameters in docker-compose.yaml file
         if !env.is_empty() {
             for ele in env {
-                cmd_str += &format!("{}={}", ele.0, ele.1);
+                command.env(ele.0, ele.1);
             }
         }
-
-        cmd_str += " docker-compose";
-
-        let output = Command::new(cmd_str)
+        command
             .arg("-p")
             .arg(self.name.clone())
             .arg("-f")
             .arg(self.file.clone())
             .arg("up")
-            .arg("-d")
-            .output()
-            .expect("Failed to execute up command");
+            .arg("-d");
+
+        let output = command.output().expect("Failed to execute up command");
 
         let success = output.status.success();
         match success {
