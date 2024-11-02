@@ -49,6 +49,7 @@ impl Orchestrator {
                 cfg_tracklist_path,
                 resolver,
             }) => {
+                println!("Orchestrator processing event : StartEvent");
                 let id = self.create_server(name, cfg_server_path, cfg_tracklist_path);
                 let successful_server_start = self.start_server(id);
                 if successful_server_start {
@@ -56,6 +57,7 @@ impl Orchestrator {
                 }
             }
             Event::StopEvent(StopEvent { id, resolver }) => {
+                println!("Orchestrator processing event : StopEvent");
                 self.stop_server(id);
                 let _ = resolver.send(StopEventResponse {});
             }
@@ -76,6 +78,7 @@ impl Orchestrator {
         let id: u32 = rand::thread_rng().gen::<u32>();
         let serv = Server::new(id, name, port);
         self.servers.insert(id, serv);
+        println!("Orchestrator server created : {}", id);
         return id;
     }
 

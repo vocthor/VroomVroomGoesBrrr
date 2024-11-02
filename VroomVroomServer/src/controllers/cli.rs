@@ -1,5 +1,12 @@
-use crate::events::models::{Event, GetServerInfoEvent, GetServerInfoEventResponse, ListServersEvent, ListServersEventResponse, StartEvent, StartEventResponse, StopEvent, StopEventResponse};
-use common_cli_messages::{trim_buffer, deserialize_cli_message, get_cli_message_socket_path, get_cli_response_socket_path, serialize_cli_response, CliMessage, CliResponse, CliResponseCode, StopServerCliResponse, ListServerCliResponse};
+use crate::events::models::{
+    Event, GetServerInfoEvent, GetServerInfoEventResponse, ListServersEvent,
+    ListServersEventResponse, StartEvent, StartEventResponse, StopEvent, StopEventResponse,
+};
+use common_cli_messages::{
+    deserialize_cli_message, get_cli_message_socket_path, get_cli_response_socket_path,
+    serialize_cli_response, trim_buffer, CliMessage, CliResponse, CliResponseCode,
+    ListServerCliResponse, StartServerCliResponse, StopServerCliResponse,
+};
 use std::collections::VecDeque;
 use std::io::{Read, Write};
 use std::os::unix::net::{UnixListener, UnixStream};
@@ -17,7 +24,8 @@ async fn start(queue: Arc<Mutex<VecDeque<Event>>>) -> std::io::Result<()> {
     std::fs::remove_file(get_cli_message_socket_path()).ok();
 
     // bind to the socket
-    let listener = UnixListener::bind(get_cli_message_socket_path()).expect("Failed to bind to socket");
+    let listener =
+        UnixListener::bind(get_cli_message_socket_path()).expect("Failed to bind to socket");
 
     // accept connections and process them
     for stream in listener.incoming() {
@@ -70,9 +78,16 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                                     .into_boxed_path(),
                                 resolver: resolver,
                             }));
+                            drop(event_queue);
 
                             let response = receiver.await.expect("Failed to receive response");
                             println!("REPONSE FROM START EVENT : {:?}", response.id);
+                            send_response(CliResponse::StartServerCliResponse(
+                                StartServerCliResponse {
+                                    id: response.id,
+                                    code: CliResponseCode::Ok,
+                                },
+                            ));
                         }
                         CliMessage::StopServerCliMessage(msg) => {
                             let (resolver, receiver): (
@@ -85,6 +100,7 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                                 id: msg.id,
                                 resolver,
                             }));
+                            drop(event_queue);
 
                             let response = receiver.await.expect("Failed to receive response");
 
@@ -106,6 +122,7 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                                 id: msg.id,
                                 resolver,
                             }));
+                            drop(event_queue);
 
                             let response = receiver.await.expect("Failed to receive response");
                             send_response(CliResponse::StopServerCliResponse(
@@ -121,9 +138,8 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                             ) = tokio::sync::oneshot::channel();
 
                             let mut event_queue = queue.lock().unwrap();
-                            event_queue.push_back(Event::ListEvent(ListServersEvent {
-                                resolver
-                            }));
+                            event_queue.push_back(Event::ListEvent(ListServersEvent { resolver }));
+                            drop(event_queue);
 
                             let response = receiver.await.expect("Failed to receive response");
                             send_response(CliResponse::ListServerCliResponse(
@@ -148,8 +164,6 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
         }
     }
 }
-
-
 
 fn send_response(response: CliResponse) {
     let mut stream = UnixStream::connect(get_cli_response_socket_path());
