@@ -7,11 +7,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="feat(cli_controller): adding mapping between cli and controller, adding cli response">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common-cli-messages/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/common-cli-messages/src/lib.rs" afterDir="false" />
-    </list>
+    <list default="true" id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="feat(cli_controller): adding mapping between cli and controller, adding cli response" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,7 +132,7 @@
       <workItem from="1728771796545" duration="10129000" />
       <workItem from="1729099121661" duration="1843000" />
       <workItem from="1729190901419" duration="687000" />
-      <workItem from="1729959863442" duration="6533000" />
+      <workItem from="1729959863442" duration="6885000" />
     </task>
     <task id="LOCAL-00001" summary="adding routing and default routes">
       <option name="closed" value="true" />
