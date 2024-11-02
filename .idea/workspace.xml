@@ -7,14 +7,7 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="feat(event): creating events">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/controllers/cli.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/controllers/models.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/controllers/models.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/orchestrator/orchestrator.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/orchestrator/orchestrator.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/VroomVroomServer/src/server/server.rs" beforeDir="false" afterPath="$PROJECT_DIR$/VroomVroomServer/src/server/server.rs" afterDir="false" />
-    </list>
+    <list default="true" id="406cc431-9d27-41a8-9600-1cd8629af5cd" name="Changes" comment="feat(cli_controller): adding mapping between cli and controller, adding cli response" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,25 +40,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Cargo.Run trackmania-server-docker.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "cli__message",
-    "last_opened_file_path": "/home/jeremy/Workspace/VroomVroomGoesBrrr/VroomVroomServer",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
-    "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "language.rust.cargo.check",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Cargo.Run trackmania-server-docker.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;cli__controller__com&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/jeremy/Workspace/VroomVroomGoesBrrr/VroomVroomServer&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;language.rust.cargo.check&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/VroomVroomServer" />
@@ -139,6 +132,7 @@
       <workItem from="1728771796545" duration="10129000" />
       <workItem from="1729099121661" duration="1843000" />
       <workItem from="1729190901419" duration="687000" />
+      <workItem from="1729959863442" duration="6885000" />
     </task>
     <task id="LOCAL-00001" summary="adding routing and default routes">
       <option name="closed" value="true" />
@@ -164,7 +158,23 @@
       <option name="project" value="LOCAL" />
       <updated>1728782415709</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat(cli_controller): adding mapping between cli and controller, adding cli response">
+      <option name="closed" value="true" />
+      <created>1729971984006</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729971984006</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat(cli_controller): adding mapping between cli and controller, adding cli response">
+      <option name="closed" value="true" />
+      <created>1729972815124</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729972815124</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -174,6 +184,7 @@
     <MESSAGE value="adding routing and default routes" />
     <MESSAGE value="adding cli support" />
     <MESSAGE value="feat(event): creating events" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(event): creating events" />
+    <MESSAGE value="feat(cli_controller): adding mapping between cli and controller, adding cli response" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(cli_controller): adding mapping between cli and controller, adding cli response" />
   </component>
 </project>

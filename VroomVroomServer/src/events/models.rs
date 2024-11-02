@@ -26,6 +26,7 @@ pub struct StopEvent {
     pub resolver: Sender<StopEventResponse>,
 }
 
+#[derive(Debug)]
 pub struct StopEventResponse {}
 
 pub struct ListServersEvent {
