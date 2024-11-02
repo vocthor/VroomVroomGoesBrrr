@@ -126,7 +126,6 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                             }));
 
                             let response = receiver.await.expect("Failed to receive response");
-                            println!("REPONSE FROM LIST SERVER EVENT : {:?}", response.servers.clone().len());
                             send_response(CliResponse::ListServerCliResponse(
                                 ListServerCliResponse {
                                     code: CliResponseCode::Ok,
