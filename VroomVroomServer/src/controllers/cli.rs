@@ -108,7 +108,6 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                             }));
 
                             let response = receiver.await.expect("Failed to receive response");
-                            println!("REPONSE FROM GET SERVER INFO EVENT : {:?}", response.server.id);
                             send_response(CliResponse::StopServerCliResponse(
                                 StopServerCliResponse {
                                     code: CliResponseCode::Ok,
