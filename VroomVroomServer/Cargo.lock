@@ -9,8 +9,10 @@ dependencies = [
  "axum",
  "bollard",
  "common-cli-messages",
+ "fs_extra",
  "http",
  "promises",
+ "quick-xml",
  "rand",
  "serde",
  "serde_json",
@@ -262,6 +264,12 @@ checksum = "e13624c2627564efccf4934284bdd98cbaa14e79b0b5a141218e507b3a823456"
 dependencies = [
  "percent-encoding",
 ]
+
+[[package]]
+name = "fs_extra"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "42703706b716c37f96a77aea830392ad231f44c9e9a67872fa5548707e11b11c"
 
 [[package]]
 name = "futures-channel"
@@ -691,6 +699,15 @@ name = "promises"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "585956a6b46a16a1bedaab83a3a4f7bb36e1273b5b4f17a6dbb5779a14272d4f"
+
+[[package]]
+name = "quick-xml"
+version = "0.37.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f22f29bdff3987b4d8632ef95fd6424ec7e4e0a57e2f4fc63e489e75357f6a03"
+dependencies = [
+ "memchr",
+]
 
 [[package]]
 name = "quote"
