@@ -9,3 +9,4 @@ edition = "2021"
 clap = "4.5.20"
 common-cli-messages = { path = "../common-cli-messages" }
 tokio = { version = "1.41.0", features = ["rt", "rt-multi-thread", "macros"] }
+rand = "0.9.0-beta.1"

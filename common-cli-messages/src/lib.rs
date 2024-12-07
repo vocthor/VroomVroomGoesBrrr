@@ -1,33 +1,37 @@
 use serde::{Deserialize, Serialize};
 
 static CLI_MESSAGE_SOCKET_PATH: &str = "/tmp/vroom-vroom-message.sock";
-static CLI_RESPONSE_SOCKET_PATH: &str = "/tmp/vroom-vroom-response.sock";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum CliMessage {
     StartServerCliMessage(StartServerCliMessage),
     StopServerCliMessage(StopServerCliMessage),
     GetServerInfoCliMessage(GetServerInfoCliMessage),
-    ListServerCliMessage,
+    ListServerCliMessage(ListServerCliMessage),
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct StartServerCliMessage {
     pub name: String,
     pub cfg_server_path: String,
     pub cfg_tracklist_path: String,
+    pub response_socket_path: String,
 }
 #[derive(Serialize, Deserialize, Debug)]
 pub struct StopServerCliMessage {
     pub id : u32,
+    pub response_socket_path: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GetServerInfoCliMessage {
     pub id : u32,
+    pub response_socket_path: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ListServerCliMessage {}
+pub struct ListServerCliMessage {
+    pub response_socket_path: String,
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum CliResponse {
@@ -85,7 +89,6 @@ pub fn deserialize_cli_response(msg: &str) -> Result<CliResponse, serde_json::Er
 pub fn get_cli_message_socket_path() -> &'static str {
     return CLI_MESSAGE_SOCKET_PATH;
 }
-pub fn get_cli_response_socket_path() -> &'static str { return CLI_RESPONSE_SOCKET_PATH; }
 
 pub fn trim_buffer(buf: &[u8]) -> String {
     // Utilise filter pour garder uniquement les caractères valides

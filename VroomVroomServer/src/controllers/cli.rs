@@ -2,16 +2,13 @@ use crate::events::models::{
     Event, GetServerInfoEvent, GetServerInfoEventResponse, ListServersEvent,
     ListServersEventResponse, StartEvent, StartEventResponse, StopEvent, StopEventResponse,
 };
-use common_cli_messages::{
-    deserialize_cli_message, get_cli_message_socket_path, get_cli_response_socket_path,
-    serialize_cli_response, trim_buffer, CliMessage, CliResponse, CliResponseCode,
-    ListServerCliResponse, StartServerCliResponse, StopServerCliResponse,
-};
+use common_cli_messages::{deserialize_cli_message, get_cli_message_socket_path, serialize_cli_response, trim_buffer, CliMessage, CliResponse, CliResponseCode, GetServerInfoCliMessage, ListServerCliMessage, ListServerCliResponse, StartServerCliMessage, StartServerCliResponse, StopServerCliMessage, StopServerCliResponse};
 use std::collections::VecDeque;
 use std::io::{Read, Write};
 use std::os::unix::net::{UnixListener, UnixStream};
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
+use std::thread::sleep;
 use tokio::sync::oneshot::{Receiver, Sender};
 
 pub fn start_cli_controller(queue: Arc<Mutex<VecDeque<Event>>>) {
@@ -63,92 +60,16 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                     println!("Received message: {:?}", message);
                     match message {
                         CliMessage::StartServerCliMessage(msg) => {
-                            println!("Starting server: {:?}", msg);
-                            let (resolver, receiver): (
-                                Sender<StartEventResponse>,
-                                Receiver<StartEventResponse>,
-                            ) = tokio::sync::oneshot::channel();
-                            let mut event_queue = queue.lock().unwrap();
-                            println!("cfg_server_path: {:?}", msg.cfg_server_path);
-                            println!("cfg_tracklist_path: {:?}", msg.cfg_tracklist_path);
-                            event_queue.push_back(Event::StartEvent(StartEvent {
-                                name: msg.name,
-                                cfg_server_path: PathBuf::from(msg.cfg_server_path)
-                                    .into_boxed_path(),
-                                cfg_tracklist_path: PathBuf::from(msg.cfg_tracklist_path)
-                                    .into_boxed_path(),
-                                resolver: resolver,
-                            }));
-                            drop(event_queue);
-
-                            let response = receiver.await.expect("Failed to receive response");
-                            println!("REPONSE FROM START EVENT : {:?}", response.id);
-                            send_response(CliResponse::StartServerCliResponse(
-                                StartServerCliResponse {
-                                    id: response.id,
-                                    code: CliResponseCode::Ok,
-                                },
-                            ));
+                            handle_start_server_message(&queue, msg).await;
                         }
                         CliMessage::StopServerCliMessage(msg) => {
-                            let (resolver, receiver): (
-                                Sender<StopEventResponse>,
-                                Receiver<StopEventResponse>,
-                            ) = tokio::sync::oneshot::channel();
-
-                            let mut event_queue = queue.lock().unwrap();
-                            event_queue.push_back(Event::StopEvent(StopEvent {
-                                id: msg.id,
-                                resolver,
-                            }));
-                            drop(event_queue);
-
-                            let response = receiver.await.expect("Failed to receive response");
-
-                            println!("REPONSE FROM STOP EVENT : {:?}", response);
-                            send_response(CliResponse::StopServerCliResponse(
-                                StopServerCliResponse {
-                                    code: CliResponseCode::Ok,
-                                },
-                            ));
+                            handle_stop_server_message(&queue, msg).await;
                         }
                         CliMessage::GetServerInfoCliMessage(msg) => {
-                            let (resolver, receiver): (
-                                Sender<GetServerInfoEventResponse>,
-                                Receiver<GetServerInfoEventResponse>,
-                            ) = tokio::sync::oneshot::channel();
-
-                            let mut event_queue = queue.lock().unwrap();
-                            event_queue.push_back(Event::GetServerInfoEvent(GetServerInfoEvent {
-                                id: msg.id,
-                                resolver,
-                            }));
-                            drop(event_queue);
-
-                            let response = receiver.await.expect("Failed to receive response");
-                            send_response(CliResponse::StopServerCliResponse(
-                                StopServerCliResponse {
-                                    code: CliResponseCode::Ok,
-                                },
-                            ));
+                            handle_get_server_info_message(&queue, msg).await;
                         }
-                        CliMessage::ListServerCliMessage {} => {
-                            let (resolver, receiver): (
-                                Sender<ListServersEventResponse>,
-                                Receiver<ListServersEventResponse>,
-                            ) = tokio::sync::oneshot::channel();
-
-                            let mut event_queue = queue.lock().unwrap();
-                            event_queue.push_back(Event::ListEvent(ListServersEvent { resolver }));
-                            drop(event_queue);
-
-                            let response = receiver.await.expect("Failed to receive response");
-                            send_response(CliResponse::ListServerCliResponse(
-                                ListServerCliResponse {
-                                    code: CliResponseCode::Ok,
-                                    servers: vec![],
-                                },
-                            ));
+                        CliMessage::ListServerCliMessage(msg)=> {
+                            handle_list_server_message(&queue, msg).await;
                         }
                     }
                 }
@@ -166,8 +87,100 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
     }
 }
 
-fn send_response(response: CliResponse) {
-    let mut stream = UnixStream::connect(get_cli_response_socket_path());
+async fn handle_list_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg : ListServerCliMessage) {
+    let (resolver, receiver): (
+        Sender<ListServersEventResponse>,
+        Receiver<ListServersEventResponse>,
+    ) = tokio::sync::oneshot::channel();
+
+    let mut event_queue = queue.lock().unwrap();
+    event_queue.push_back(Event::ListEvent(ListServersEvent { resolver }));
+    drop(event_queue);
+
+    let response = receiver.await.expect("Failed to receive response");
+    send_response(CliResponse::ListServerCliResponse(
+        ListServerCliResponse {
+            code: CliResponseCode::Ok,
+            servers: vec![],
+        },
+    ),msg.response_socket_path);
+}
+
+async fn handle_get_server_info_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: GetServerInfoCliMessage) {
+    let (resolver, receiver): (
+        Sender<GetServerInfoEventResponse>,
+        Receiver<GetServerInfoEventResponse>,
+    ) = tokio::sync::oneshot::channel();
+
+    let mut event_queue = queue.lock().unwrap();
+    event_queue.push_back(Event::GetServerInfoEvent(GetServerInfoEvent {
+        id: msg.id,
+        resolver,
+    }));
+    drop(event_queue);
+
+    let response = receiver.await.expect("Failed to receive response");
+    send_response(CliResponse::StopServerCliResponse(
+        StopServerCliResponse {
+            code: CliResponseCode::Ok,
+        },
+    ),msg.response_socket_path);
+}
+
+async fn handle_stop_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: StopServerCliMessage) {
+    // let (resolver, receiver): (
+    //     Sender<StopEventResponse>,
+    //     Receiver<StopEventResponse>,
+    // ) = tokio::sync::oneshot::channel();
+    //
+    // let mut event_queue = queue.lock().unwrap();
+    // event_queue.push_back(Event::StopEvent(StopEvent {
+    //     id: msg.id,
+    //     resolver,
+    // }));
+    // drop(event_queue);
+    //
+    // let response = receiver.await.expect("Failed to receive response");
+
+    // println!("REPONSE FROM STOP EVENT : {:?}", response);
+    send_response(CliResponse::StopServerCliResponse(
+        StopServerCliResponse {
+            code: CliResponseCode::Ok,
+        },
+    ),msg.response_socket_path);
+}
+
+async fn handle_start_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: StartServerCliMessage) {
+    println!("Starting server: {:?}", msg);
+    let (resolver, receiver): (
+        Sender<StartEventResponse>,
+        Receiver<StartEventResponse>,
+    ) = tokio::sync::oneshot::channel();
+    let mut event_queue = queue.lock().unwrap();
+    println!("cfg_server_path: {:?}", msg.cfg_server_path);
+    println!("cfg_tracklist_path: {:?}", msg.cfg_tracklist_path);
+    event_queue.push_back(Event::StartEvent(StartEvent {
+        name: msg.name,
+        cfg_server_path: PathBuf::from(msg.cfg_server_path)
+            .into_boxed_path(),
+        cfg_tracklist_path: PathBuf::from(msg.cfg_tracklist_path)
+            .into_boxed_path(),
+        resolver: resolver,
+    }));
+    drop(event_queue);
+
+    let response = receiver.await.expect("Failed to receive response");
+    println!("REPONSE FROM START EVENT : {:?}", response.id);
+    send_response(CliResponse::StartServerCliResponse(
+        StartServerCliResponse {
+            id: response.id,
+            code: CliResponseCode::Ok,
+        },
+    ),msg.response_socket_path);
+}
+
+fn send_response(response: CliResponse, socket_path: String) {
+    let mut stream = UnixStream::connect(socket_path);
     match stream {
         Ok(mut stream) => {
             let serialized = serialize_cli_response(&response).unwrap();
