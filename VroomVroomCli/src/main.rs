@@ -25,6 +25,14 @@ async fn main() {
                             .help("Nom du serveur")
                             .required(true)
                         )
+                        .arg(Arg::new("cfg_server_path")
+                            .help("Path to cfg server config file")
+                            .required(true)
+                        )
+                        .arg(Arg::new("cfg_tracklist_path")
+                            .help("Path to cfg tracklist config file")
+                            .required(true)
+                        )
                 )
                 .subcommand(
                     Command::new("status")
@@ -53,11 +61,12 @@ async fn main() {
         match server_matches.subcommand() {
             Some(("start", sub_matches)) => {
                 let server_name: String = sub_matches.get_one::<String>("name").expect("Le nom du serveur est obligatoire").to_string();
+                let cfg_server_path: String = sub_matches.get_one::<String>("cfg_server_path").expect("Le chemin vers la configuration du server est obligatoire").to_string();
+                let cfg_tracklist_path: String = sub_matches.get_one::<String>("cfg_tracklist_path").expect("Le chemin vers la configuration de la tracklist est obligatoire").to_string();
                 let cli_message = CliMessage::StartServerCliMessage(StartServerCliMessage {
                     name: server_name.clone(),
-                    map_path: "map_path".to_string(),
-                    cfg_server_path: "cfg_server_path".to_string(),
-                    cfg_tracklist_path: "cfg_tracklist_path".to_string(),
+                    cfg_server_path: cfg_server_path,
+                    cfg_tracklist_path: cfg_tracklist_path
                 });
 
                 send_message(cli_message);
@@ -121,7 +130,7 @@ pub fn wait_for_response() {
 }
 
 pub fn send_message(message: CliMessage) {
-    let mut stream = UnixStream::connect(get_cli_message_socket_path());
+    let stream = UnixStream::connect(get_cli_message_socket_path());
     match stream {
         Ok(mut stream) => {
             let serialized = common_cli_messages::serialize_cli_message(&message).unwrap();

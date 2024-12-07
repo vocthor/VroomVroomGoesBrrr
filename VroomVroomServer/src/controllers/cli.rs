@@ -68,8 +68,9 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                                 Sender<StartEventResponse>,
                                 Receiver<StartEventResponse>,
                             ) = tokio::sync::oneshot::channel();
-
                             let mut event_queue = queue.lock().unwrap();
+                            println!("cfg_server_path: {:?}", msg.cfg_server_path);
+                            println!("cfg_tracklist_path: {:?}", msg.cfg_tracklist_path);
                             event_queue.push_back(Event::StartEvent(StartEvent {
                                 name: msg.name,
                                 cfg_server_path: PathBuf::from(msg.cfg_server_path)
