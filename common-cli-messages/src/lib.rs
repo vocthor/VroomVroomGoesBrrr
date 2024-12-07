@@ -46,23 +46,27 @@ pub enum CliResponse {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct StartServerCliResponse {
     pub code: CliResponseCode,
+    pub error_message: Option<String>,
     pub id: u32
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct StopServerCliResponse {
     pub code: CliResponseCode,
+    pub error_message: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GetServerInfoCliResponse {
-    pub code: CliResponseCode
+    pub code: CliResponseCode,
+    pub error_message: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ListServerCliResponse {
     pub code: CliResponseCode,
     pub servers: Vec<String>,
+    pub error_message: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

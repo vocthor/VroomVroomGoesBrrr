@@ -8,7 +8,6 @@ use std::io::{Read, Write};
 use std::os::unix::net::{UnixListener, UnixStream};
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
-use std::thread::sleep;
 use tokio::sync::oneshot::{Receiver, Sender};
 
 pub fn start_cli_controller(queue: Arc<Mutex<VecDeque<Event>>>) {
@@ -17,6 +16,16 @@ pub fn start_cli_controller(queue: Arc<Mutex<VecDeque<Event>>>) {
     });
 }
 
+/// Start the CLI controller
+///
+/// This function will bind to the socket and listen for incoming connections
+///
+/// # Arguments
+///  * `queue` - The event queue
+///
+/// # Errors
+///
+/// This function will return an error if it fails to bind to the socket
 async fn start(queue: Arc<Mutex<VecDeque<Event>>>) -> std::io::Result<()> {
     std::fs::remove_file(get_cli_message_socket_path()).ok();
 
@@ -45,6 +54,17 @@ async fn start(queue: Arc<Mutex<VecDeque<Event>>>) -> std::io::Result<()> {
     Ok(())
 }
 
+/// Handle the client connection
+/// This function will read from the stream and process the message received from the client
+///
+/// # Arguments
+/// * `stream` - The stream to read from
+/// * `queue` - The event queue
+///
+/// # Errors
+///
+/// This function will return an error if it fails to read from the stream
+///
 async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>>) {
     let mut buf = [0; 1024];
     println!("Handling client");
@@ -87,6 +107,13 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
     }
 }
 
+/// Handle the list server message
+///
+/// This function will push a ListServersEvent to the event queue
+///
+/// # Arguments
+/// * `queue` - The event queue
+/// * `msg` - The list server message
 async fn handle_list_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg : ListServerCliMessage) {
     let (resolver, receiver): (
         Sender<ListServersEventResponse>,
@@ -101,11 +128,20 @@ async fn handle_list_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg : L
     send_response(CliResponse::ListServerCliResponse(
         ListServerCliResponse {
             code: CliResponseCode::Ok,
+            error_message: Option::from("".to_string()),
             servers: vec![],
         },
     ),msg.response_socket_path);
 }
 
+/// Handle the get server info message
+///
+/// This function will push a GetServerInfoEvent to the event queue build from the get server info message
+///
+/// # Arguments
+/// * `queue` - The event queue
+/// * `msg` - The get server info message
+///
 async fn handle_get_server_info_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: GetServerInfoCliMessage) {
     let (resolver, receiver): (
         Sender<GetServerInfoEventResponse>,
@@ -123,33 +159,49 @@ async fn handle_get_server_info_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg
     send_response(CliResponse::StopServerCliResponse(
         StopServerCliResponse {
             code: CliResponseCode::Ok,
+            error_message: Option::from("".to_string()),
         },
     ),msg.response_socket_path);
 }
 
+/// Handle the stop server message
+///
+/// This function will push a StopEvent to the event queue build from the stop server message
+///
+/// # Arguments
+/// * `queue` - The event queue
+/// * `msg` - The stop server message
 async fn handle_stop_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: StopServerCliMessage) {
-    // let (resolver, receiver): (
-    //     Sender<StopEventResponse>,
-    //     Receiver<StopEventResponse>,
-    // ) = tokio::sync::oneshot::channel();
-    //
-    // let mut event_queue = queue.lock().unwrap();
-    // event_queue.push_back(Event::StopEvent(StopEvent {
-    //     id: msg.id,
-    //     resolver,
-    // }));
-    // drop(event_queue);
-    //
-    // let response = receiver.await.expect("Failed to receive response");
+    let (resolver, receiver): (
+        Sender<StopEventResponse>,
+        Receiver<StopEventResponse>,
+    ) = tokio::sync::oneshot::channel();
 
-    // println!("REPONSE FROM STOP EVENT : {:?}", response);
+    let mut event_queue = queue.lock().unwrap();
+    event_queue.push_back(Event::StopEvent(StopEvent {
+        id: msg.id,
+        resolver,
+    }));
+    drop(event_queue);
+
+    let response = receiver.await.expect("Failed to receive response");
+
+    println!("REPONSE FROM STOP EVENT : {:?}", response);
     send_response(CliResponse::StopServerCliResponse(
         StopServerCliResponse {
             code: CliResponseCode::Ok,
+            error_message: Option::from("".to_string()),
         },
     ),msg.response_socket_path);
 }
 
+/// Handle the start server message
+///
+/// This function will push a StartEvent to the event queue build from the start server message
+///
+/// # Arguments
+/// * `queue` - The event queue
+/// * `msg` - The start server message
 async fn handle_start_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: StartServerCliMessage) {
     println!("Starting server: {:?}", msg);
     let (resolver, receiver): (
@@ -175,10 +227,18 @@ async fn handle_start_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: S
         StartServerCliResponse {
             id: response.id,
             code: CliResponseCode::Ok,
+            error_message: Option::from("".to_string()),
         },
     ),msg.response_socket_path);
 }
 
+/// Send a response to the cli client
+///
+/// This function will serialize the response and send it to the client
+///
+/// # Arguments
+/// * `response` - The response to send
+/// * `socket_path` - The socket path to send the response to
 fn send_response(response: CliResponse, socket_path: String) {
     let mut stream = UnixStream::connect(socket_path);
     match stream {

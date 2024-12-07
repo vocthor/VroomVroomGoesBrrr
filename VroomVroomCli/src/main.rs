@@ -81,6 +81,14 @@ async fn main() {
     }
 }
 
+/// Handle the list command
+/// This function
+/// - creates a random socket path that will be used to receive the response from the server
+/// - sends a ListServerCliMessage to the server
+/// - waits for a response from the server
+///
+/// # Arguments
+/// * `sub_matches` - The sub_matches that contains the arguments for the list command
 fn handle_list_command() {
     let socket_path = create_random_socket_path();
     let cli_message = CliMessage::ListServerCliMessage(
@@ -92,6 +100,15 @@ fn handle_list_command() {
     wait_for_response(socket_path);
 }
 
+/// Handle the status command
+/// This function
+/// - extracts the server name from the sub_matches
+/// - creates a random socket path that will be used to receive the response from the server
+/// - sends a GetServerInfoCliMessage to the server
+/// - waits for a response from the server
+///
+/// # Arguments
+/// * `sub_matches` - The sub_matches that contains the arguments for the status command
 fn handle_status_command(sub_matches: &ArgMatches) {
     let server_id: String = sub_matches.get_one::<String>("id").expect("Le nom du serveur est obligatoire").to_string();
     let socket_path = create_random_socket_path();
@@ -104,6 +121,15 @@ fn handle_status_command(sub_matches: &ArgMatches) {
     wait_for_response(socket_path);
 }
 
+/// Handle the stop command
+/// This function
+/// - extracts the server name from the sub_matches
+/// - creates a random socket path that will be used to receive the response from the server
+/// - sends a StopServerCliMessage to the server
+/// - waits for a response from the server
+///
+/// # Arguments
+/// * `sub_matches` - The sub_matches that contains the arguments for the stop command
 fn handle_stop_command(sub_matches: &ArgMatches) {
     let server_id: String = sub_matches.get_one::<String>("id").expect("Le nom du serveur est obligatoire").to_string();
     let socket_path = create_random_socket_path();
@@ -116,6 +142,15 @@ fn handle_stop_command(sub_matches: &ArgMatches) {
     wait_for_response(socket_path);
 }
 
+/// Handle the start command
+/// This function
+/// - extracts the server name, the server configuration path and the tracklist configuration path from the sub_matches
+/// - creates a random socket path that will be used to receive the response from the server
+/// - sends a StartServerCliMessage to the server
+/// - waits for a response from the server
+///
+/// # Arguments
+/// * `sub_matches` - The sub_matches that contains the arguments for the start command
 fn handle_start_command(sub_matches: &ArgMatches) {
     let server_name: String = sub_matches.get_one::<String>("name").expect("Le nom du serveur est obligatoire").to_string();
     let cfg_server_path: String = sub_matches.get_one::<String>("cfg_server_path").expect("Le chemin vers la configuration du server est obligatoire").to_string();
@@ -134,7 +169,15 @@ fn handle_start_command(sub_matches: &ArgMatches) {
 
 /// Wait for a response from the server
 /// This function will block until a response is received
-pub fn wait_for_response(socket_path : String) {
+///
+/// # Arguments
+/// * `socket_path` - The path to the socket that will be used to receive the response
+///
+/// # Errors
+///
+/// This function will exit the process if it fails to bind to the socket or if it fails to accept a connection
+///
+fn wait_for_response(socket_path : String) {
     std::fs::remove_file(&socket_path).ok();
 
     // bind to the socket
@@ -156,23 +199,37 @@ pub fn wait_for_response(socket_path : String) {
                 }
                 Err(err) => {
                     eprintln!("Error reading from stream: {:?}", err);
+                    exit(1);
                 }
             }
         }
         Err(err) => {
             eprintln!("Error accepting connection: {:?}", err);
+            exit(1);
         }
     }
 }
 
-pub fn create_random_socket_path() -> String {
+/// Create a random socket path
+/// This socket will be used to receive responses from the server
+///
+/// # Returns
+///  A string representing the path to the socket
+fn create_random_socket_path() -> String {
     let socket_path = format!("/tmp/vroom-vroom-response-{}.sock", rand::random::<u32>());
     std::fs::remove_file(&socket_path).ok();
     socket_path
 }
 
 /// Send a message to the server using the socket
-pub fn send_message(message: CliMessage) {
+///
+/// # Arguments
+/// * `message` - The message to send to the server
+///
+/// # Errors
+///
+/// This function will exit the process if it fails to connect to the socket
+fn send_message(message: CliMessage) {
     let stream = UnixStream::connect(get_cli_message_socket_path());
     match stream {
         Ok(mut stream) => {
