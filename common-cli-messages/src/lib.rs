@@ -13,7 +13,6 @@ pub enum CliMessage {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct StartServerCliMessage {
     pub name: String,
-    pub map_path: String,
     pub cfg_server_path: String,
     pub cfg_tracklist_path: String,
 }
