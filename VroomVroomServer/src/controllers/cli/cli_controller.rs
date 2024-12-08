@@ -2,7 +2,12 @@ use crate::events::models::{
     Event, GetServerInfoEvent, GetServerInfoEventResponse, ListServersEvent,
     ListServersEventResponse, StartEvent, StartEventResponse, StopEvent, StopEventResponse,
 };
-use common_cli_messages::{deserialize_cli_message, get_cli_message_socket_path, serialize_cli_response, trim_buffer, CliMessage, CliResponse, CliResponseCode, GetServerInfoCliMessage, ListServerCliMessage, ListServerCliResponse, StartServerCliMessage, StartServerCliResponse, StopServerCliMessage, StopServerCliResponse};
+use common_cli_messages::{
+    deserialize_cli_message, get_cli_message_socket_path, serialize_cli_response, trim_buffer,
+    CliMessage, CliResponse, CliResponseCode, GetServerInfoCliMessage, ListServerCliMessage,
+    ListServerCliResponse, StartServerCliMessage, StartServerCliResponse, StopServerCliMessage,
+    StopServerCliResponse,
+};
 use std::collections::VecDeque;
 use std::io::{Read, Write};
 use std::os::unix::net::{UnixListener, UnixStream};
@@ -88,7 +93,7 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
                         CliMessage::GetServerInfoCliMessage(msg) => {
                             handle_get_server_info_message(&queue, msg).await;
                         }
-                        CliMessage::ListServerCliMessage(msg)=> {
+                        CliMessage::ListServerCliMessage(msg) => {
                             handle_list_server_message(&queue, msg).await;
                         }
                     }
@@ -114,7 +119,10 @@ async fn handle_client(mut stream: UnixStream, queue: Arc<Mutex<VecDeque<Event>>
 /// # Arguments
 /// * `queue` - The event queue
 /// * `msg` - The list server message
-async fn handle_list_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg : ListServerCliMessage) {
+async fn handle_list_server_message(
+    queue: &Arc<Mutex<VecDeque<Event>>>,
+    msg: ListServerCliMessage,
+) {
     let (resolver, receiver): (
         Sender<ListServersEventResponse>,
         Receiver<ListServersEventResponse>,
@@ -125,13 +133,14 @@ async fn handle_list_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg : L
     drop(event_queue);
 
     let response = receiver.await.expect("Failed to receive response");
-    send_response(CliResponse::ListServerCliResponse(
-        ListServerCliResponse {
+    send_response(
+        CliResponse::ListServerCliResponse(ListServerCliResponse {
             code: CliResponseCode::Ok,
             error_message: Option::from("".to_string()),
             servers: vec![],
-        },
-    ),msg.response_socket_path);
+        }),
+        msg.response_socket_path,
+    );
 }
 
 /// Handle the get server info message
@@ -142,7 +151,10 @@ async fn handle_list_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg : L
 /// * `queue` - The event queue
 /// * `msg` - The get server info message
 ///
-async fn handle_get_server_info_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: GetServerInfoCliMessage) {
+async fn handle_get_server_info_message(
+    queue: &Arc<Mutex<VecDeque<Event>>>,
+    msg: GetServerInfoCliMessage,
+) {
     let (resolver, receiver): (
         Sender<GetServerInfoEventResponse>,
         Receiver<GetServerInfoEventResponse>,
@@ -156,12 +168,13 @@ async fn handle_get_server_info_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg
     drop(event_queue);
 
     let response = receiver.await.expect("Failed to receive response");
-    send_response(CliResponse::StopServerCliResponse(
-        StopServerCliResponse {
+    send_response(
+        CliResponse::StopServerCliResponse(StopServerCliResponse {
             code: CliResponseCode::Ok,
             error_message: Option::from("".to_string()),
-        },
-    ),msg.response_socket_path);
+        }),
+        msg.response_socket_path,
+    );
 }
 
 /// Handle the stop server message
@@ -171,11 +184,12 @@ async fn handle_get_server_info_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg
 /// # Arguments
 /// * `queue` - The event queue
 /// * `msg` - The stop server message
-async fn handle_stop_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: StopServerCliMessage) {
-    let (resolver, receiver): (
-        Sender<StopEventResponse>,
-        Receiver<StopEventResponse>,
-    ) = tokio::sync::oneshot::channel();
+async fn handle_stop_server_message(
+    queue: &Arc<Mutex<VecDeque<Event>>>,
+    msg: StopServerCliMessage,
+) {
+    let (resolver, receiver): (Sender<StopEventResponse>, Receiver<StopEventResponse>) =
+        tokio::sync::oneshot::channel();
 
     let mut event_queue = queue.lock().unwrap();
     event_queue.push_back(Event::StopEvent(StopEvent {
@@ -187,12 +201,13 @@ async fn handle_stop_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: St
     let response = receiver.await.expect("Failed to receive response");
 
     println!("REPONSE FROM STOP EVENT : {:?}", response);
-    send_response(CliResponse::StopServerCliResponse(
-        StopServerCliResponse {
+    send_response(
+        CliResponse::StopServerCliResponse(StopServerCliResponse {
             code: CliResponseCode::Ok,
             error_message: Option::from("".to_string()),
-        },
-    ),msg.response_socket_path);
+        }),
+        msg.response_socket_path,
+    );
 }
 
 /// Handle the start server message
@@ -202,34 +217,34 @@ async fn handle_stop_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: St
 /// # Arguments
 /// * `queue` - The event queue
 /// * `msg` - The start server message
-async fn handle_start_server_message(queue: &Arc<Mutex<VecDeque<Event>>>, msg: StartServerCliMessage) {
+async fn handle_start_server_message(
+    queue: &Arc<Mutex<VecDeque<Event>>>,
+    msg: StartServerCliMessage,
+) {
     println!("Starting server: {:?}", msg);
-    let (resolver, receiver): (
-        Sender<StartEventResponse>,
-        Receiver<StartEventResponse>,
-    ) = tokio::sync::oneshot::channel();
+    let (resolver, receiver): (Sender<StartEventResponse>, Receiver<StartEventResponse>) =
+        tokio::sync::oneshot::channel();
     let mut event_queue = queue.lock().unwrap();
     println!("cfg_server_path: {:?}", msg.cfg_server_path);
     println!("cfg_tracklist_path: {:?}", msg.cfg_tracklist_path);
     event_queue.push_back(Event::StartEvent(StartEvent {
         name: msg.name,
-        cfg_server_path: PathBuf::from(msg.cfg_server_path)
-            .into_boxed_path(),
-        cfg_tracklist_path: PathBuf::from(msg.cfg_tracklist_path)
-            .into_boxed_path(),
+        cfg_server_path: PathBuf::from(msg.cfg_server_path).into_boxed_path(),
+        cfg_tracklist_path: PathBuf::from(msg.cfg_tracklist_path).into_boxed_path(),
         resolver: resolver,
     }));
     drop(event_queue);
 
     let response = receiver.await.expect("Failed to receive response");
     println!("REPONSE FROM START EVENT : {:?}", response.id);
-    send_response(CliResponse::StartServerCliResponse(
-        StartServerCliResponse {
+    send_response(
+        CliResponse::StartServerCliResponse(StartServerCliResponse {
             id: response.id,
             code: CliResponseCode::Ok,
             error_message: Option::from("".to_string()),
-        },
-    ),msg.response_socket_path);
+        }),
+        msg.response_socket_path,
+    );
 }
 
 /// Send a response to the cli client
