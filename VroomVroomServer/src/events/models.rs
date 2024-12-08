@@ -1,4 +1,4 @@
-use crate::controllers::models::ServerInfo;
+use crate::controllers::common::models::ServerInfo;
 use std::path::Path;
 use tokio::sync::oneshot::Sender;
 

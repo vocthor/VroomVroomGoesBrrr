@@ -1,12 +1,20 @@
+use crate::controllers::web::map_controller::{delete_map, get_map_info, list_map, post_map};
+use crate::controllers::web::server_config_controller::{
+    delete_server_config, get_server_config_info, list_server_config, post_server_config,
+};
+use crate::controllers::web::server_controller::{
+    get_trackmania_server_info, list_trackmania_servers, start_trackmania_server,
+    stop_trackmania_server,
+};
+use crate::controllers::web::tracklist_config_controller::{
+    delete_tracklist_config, get_tracklist_config_info, list_tracklist_config,
+    post_tracklist_config,
+};
 use axum::routing::delete;
 use axum::{
     routing::{get, post},
     Router,
 };
-use crate::controllers::web::map_controller::{delete_map, get_map_info, list_map, post_map};
-use crate::controllers::web::server_config_controller::{delete_server_config, get_server_config_info, list_server_config, post_server_config};
-use crate::controllers::web::server_controller::{get_trackmania_server_info, list_trackmania_servers, start_trackmania_server, stop_trackmania_server};
-use crate::controllers::web::tracklist_config_controller::{delete_tracklist_config, get_tracklist_config_info, list_tracklist_config, post_tracklist_config};
 
 pub fn start_web_controller(port: u16) {
     tokio::spawn(async move {
@@ -37,7 +45,10 @@ async fn start(port: u16) {
         .route("/tracklist-config", post(post_tracklist_config))
         .route("/tracklist-config", get(list_tracklist_config))
         .route("/tracklist-config/{id}", delete(delete_tracklist_config))
-        .route("/tracklist-config/{id}/info", get(get_tracklist_config_info), );
+        .route(
+            "/tracklist-config/{id}/info",
+            get(get_tracklist_config_info),
+        );
 
     let addr = format!("localhost:{}", port);
 

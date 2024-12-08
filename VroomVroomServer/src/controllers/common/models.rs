@@ -1,7 +1,5 @@
-use common_cli_messages::StartServerCliMessage;
-use serde::Serialize;
 use serde::Deserialize;
-use crate::events::models::StartEvent;
+use serde::Serialize;
 
 #[derive(Serialize)]
 pub struct ServerInfo {
@@ -15,16 +13,17 @@ impl ServerInfo {
 }
 
 #[derive(Deserialize)]
-pub struct CliCommand{
-    message_type : String,
-    message : String
+pub struct CliCommand {
+    message_type: String,
+    message: String,
 }
-
-
 
 impl CliCommand {
     pub fn new(message_type: String, message: String) -> Self {
-        CliCommand { message_type, message }
+        CliCommand {
+            message_type,
+            message,
+        }
     }
     pub fn get_message_type(&self) -> &String {
         &self.message_type
@@ -47,4 +46,3 @@ pub struct DeleteServerCommand {
 pub struct GetServerInfoCommand {
     id: u32,
 }
-
