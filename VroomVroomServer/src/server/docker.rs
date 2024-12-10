@@ -105,6 +105,7 @@ impl DockerComposeCmd {
             .arg("-f")
             .arg(self.file.clone())
             .arg("down")
+            .arg("-v")
             .output()
             .expect("Failed to execute down command");
     }
