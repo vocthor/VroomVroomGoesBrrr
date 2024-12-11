@@ -26,7 +26,7 @@ impl PartialEq for Server {
 impl Server {
     pub fn new(id: u32, name: String, port: u16) -> Self {
         let docker_compose_cmd = DockerComposeCmd::new(
-            name.as_str(),
+            format!("{}_{}", name, id).as_str(),
             format!("./compose/{}/docker-compose.yaml", id).as_str(),
             "target/docker_logs",
         );
@@ -41,7 +41,7 @@ impl Server {
     pub fn start_server(&self) -> bool {
         println!("Server docker-compose up");
 
-        // Setting up the port that will be passed to the docker-compose.yaml file
+        // Setting up the env vars that will be passed to the docker-compose.yaml file
         let mut env = HashMap::new();
         let port_str: &str = &self.port.to_string();
         env.insert("VROOMVROOM_PORT", port_str);
