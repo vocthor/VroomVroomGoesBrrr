@@ -31,24 +31,25 @@ impl DockerComposeCmd {
             .arg(self.file.clone())
             .arg("up")
             .arg("-d");
-
+        println!("Executing {:?}", command);
         let output = command.output().expect("Failed to execute up command");
 
         let success = output.status.success();
-        match success {
-            // If server correctly starting : nothing particuliar
-            true => {
-                println!("Output: {}", String::from_utf8_lossy(&output.stdout));
-            }
-            // If error during startup : stop the server
-            false => {
-                println!(
-                    "An error occured while docker-compose : {}",
-                    String::from_utf8_lossy(&output.stderr)
-                );
-                self.down();
-            }
+        println!("Success: {}", success);
+        println!(
+            "Output (stdout): {}",
+            String::from_utf8_lossy(&output.stdout)
+        );
+        println!(
+            "Output (stderr): {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+
+        if !success {
+            println!("An error occurred. Stopping the server...");
+            self.down();
         }
+
         return success;
 
         // let dir = &self.logs_dir;
@@ -96,16 +97,36 @@ impl DockerComposeCmd {
         //     .collect();
     }
 
-    pub fn down(&self) {
+    pub fn down(&self) -> bool {
         println!("Gracefully shutting down...");
 
-        let _output = Command::new("docker-compose")
+        let mut command = Command::new("docker-compose");
+        command
             .arg("-p")
             .arg(self.name.clone())
             .arg("-f")
-            .arg(self.file.clone())
+            .arg("./compose/template/docker-compose.yaml") // Le dossier `compose/<id>/` n'existe plus, mais on peut utiliser celui de template (pour down uniquement !)
             .arg("down")
-            .output()
-            .expect("Failed to execute down command");
+            .arg("-v");
+        println!("Executing {:?}", command);
+        let output = command.output().expect("Failed to execute down command");
+
+        let success = output.status.success();
+        println!("Success: {}", success);
+        println!(
+            "Output (stdout): {}",
+            String::from_utf8_lossy(&output.stdout)
+        );
+        println!(
+            "Output (stderr): {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+
+        if !success {
+            // TODO : quoi faire si pb ici ?
+            println!("An error occurred. Stopping the server...");
+        }
+
+        return success;
     }
 }
