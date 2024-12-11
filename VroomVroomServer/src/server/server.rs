@@ -44,7 +44,8 @@ impl Server {
         // Setting up the port that will be passed to the docker-compose.yaml file
         let mut env = HashMap::new();
         let port_str: &str = &self.port.to_string();
-        env.insert("PORT", port_str);
+        env.insert("VROOMVROOM_PORT", port_str);
+        env.insert("VROOMVROOM_NAME", &self.name);
 
         return self.docker_compose_cmd.up(env);
     }

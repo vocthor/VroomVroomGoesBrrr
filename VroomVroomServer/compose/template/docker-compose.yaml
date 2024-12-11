@@ -31,10 +31,10 @@ services:
       - database
     environment:
       SERVER_TITLE: "Trackmania"
-      SERVER_NAME: "Insalan Train"
+      SERVER_NAME: "${VROOMVROOM_NAME:-VroomVroom}"
     ports:
-      - "${PORT:-2350}:${PORT:-2350}/tcp"
-      - "${PORT:-2350}:${PORT:-2350}/udp"
+      - "${VROOMVROOM_PORT:-2350}:${VROOMVROOM_PORT:-2350}/tcp"
+      - "${VROOMVROOM_PORT:-2350}:${VROOMVROOM_PORT:-2350}/udp"
     #      - "3450:3450/tcp"
     #      - "3450:3450/udp"
     expose:
