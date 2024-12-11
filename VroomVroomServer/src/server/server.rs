@@ -27,7 +27,7 @@ impl Server {
     pub fn new(id: u32, name: String, port: u16) -> Self {
         let docker_compose_cmd = DockerComposeCmd::new(
             name.as_str(),
-            "./compose/template/docker-compose.yaml",
+            format!("./compose/{}/docker-compose.yaml", id).as_str(),
             "target/docker_logs",
         );
         return Self {

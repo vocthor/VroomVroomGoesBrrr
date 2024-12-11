@@ -85,7 +85,7 @@ impl Orchestrator {
         cfg_tracklist_path: Box<Path>,
     ) -> u32 {
         // Server Constants
-        let id: u32 = rand::thread_rng().gen::<u32>(); // Incha'Allah ya pas de conflit
+        let id: u32 = rand::thread_rng().gen::<u32>();
         let port = self.port_manager.get_port_for_server().unwrap();
 
         // Server files configuration
