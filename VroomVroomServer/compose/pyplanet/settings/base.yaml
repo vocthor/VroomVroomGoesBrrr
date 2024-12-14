@@ -1,12 +1,11 @@
-DEBUG: false
+DEBUG: true
 ROOT_PATH: '/home/server/pyplanet'
 TMP_PATH: '/home/server/pyplanet/tmp'
 POOLS:
   - default
 OWNERS:
   default:
-    - Bgaia31IQIKwjnRVKdrsyw
-    - nJNIsRdyQFSSWV054K3EGw
+    - l4IBuhWdQgGa_LgZMId8Ow # Vocthor_
 SELF_UPGRADE: false
 DATABASES:
   default:
